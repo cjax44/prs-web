@@ -14,22 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prs.business.JsonResponse;
-import com.prs.business.User;
-import com.prs.business.Vendor;
-import com.prs.db.VendorRepository;
+import com.prs.business.Product;
+import com.prs.db.ProductRepository;
 
 @RestController
-@RequestMapping("/vendors")
-public class VendorController {
+@RequestMapping("/products")
+public class ProductController {
 
 	@Autowired
-	private VendorRepository vendorRepo;
+	private ProductRepository productRepo;
 
 	@GetMapping("/")
 	public JsonResponse getAll() {
 		JsonResponse jr = null;
 		try {
-			jr = JsonResponse.getInstance(vendorRepo.findAll());
+			jr = JsonResponse.getInstance(productRepo.findAll());
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);
@@ -42,7 +41,7 @@ public class VendorController {
 	public JsonResponse getAll(@PathVariable int id) {
 		JsonResponse jr = null;
 		try {
-			Optional<Vendor> p = vendorRepo.findById(id);
+			Optional<Product> p = productRepo.findById(id);
 			if (p.isPresent())
 				jr = JsonResponse.getInstance(p);
 			else
@@ -56,12 +55,12 @@ public class VendorController {
 	}
 
 	@DeleteMapping("/")
-	public JsonResponse delete(@RequestBody Vendor p) {
+	public JsonResponse delete(@RequestBody Product p) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
 		try {
-			if (vendorRepo.existsById(p.getId())) {
-				vendorRepo.delete(p);
+			if (productRepo.existsById(p.getId())) {
+				productRepo.delete(p);
 				jr = JsonResponse.getInstance("User deleted.");
 			} else {
 				jr = JsonResponse
@@ -76,12 +75,12 @@ public class VendorController {
 	}
 
 	@PutMapping("/")
-	public JsonResponse update(@RequestBody Vendor p) {
+	public JsonResponse update(@RequestBody Product p) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
 		try {
-			if (vendorRepo.existsById(p.getId())) {
-				jr = JsonResponse.getInstance(vendorRepo.save(p));
+			if (productRepo.existsById(p.getId())) {
+				jr = JsonResponse.getInstance(productRepo.save(p));
 			} else {
 				jr = JsonResponse
 						.getInstance("User ID: " + p.getId() + " does not exist and you are attempting to save it");
@@ -95,11 +94,11 @@ public class VendorController {
 	}
 
 	@PostMapping("/")
-	public JsonResponse add(@RequestBody Vendor p) {
+	public JsonResponse add(@RequestBody Product p) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
 		try {
-			jr = JsonResponse.getInstance(vendorRepo.save(p));
+			jr = JsonResponse.getInstance(productRepo.save(p));
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);

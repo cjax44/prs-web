@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.prs.business.PurchaseRequest;
 
-public interface PurcaseRequestRepository extends CrudRepository<PurchaseRequest, Integer> {
+public interface PurchaseRequestRepository extends CrudRepository<PurchaseRequest, Integer> {
 
 }
