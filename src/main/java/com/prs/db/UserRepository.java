@@ -8,8 +8,9 @@ import com.prs.business.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
-	Optional<User> findByuserNameAndPassword(String userName, String Password);
+	Optional<User> findByuserNameAndPassword(String userName, String password);
 
 	Optional<User> findByuserName(String string);
+	
 
 }

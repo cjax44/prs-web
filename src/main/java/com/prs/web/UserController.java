@@ -108,15 +108,15 @@ public class UserController {
 
 	}
 	
-	@PostMapping("")
-	public JsonResponse getLogin(@RequestParam String userName,@RequestParam String password) {
+	@PostMapping("/authenticate")
+	public JsonResponse authenticate(@RequestBody User user) {
 		JsonResponse jr = null;
 		try {
-			Optional<User> p = userRepo.findByuserNameAndPassword(userName, password);
+			Optional<User> p = userRepo.findByuserNameAndPassword(user.getUserName(), user.getPassword());
 			if (p.isPresent())
 				jr = JsonResponse.getInstance(p);
 			else
-				jr = JsonResponse.getInstance("No user found for User Name: " + userName);
+				jr = JsonResponse.getInstance("No user found for User Name: " + user.getUserName());
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);

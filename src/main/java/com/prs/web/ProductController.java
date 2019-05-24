@@ -45,7 +45,7 @@ public class ProductController {
 			if (p.isPresent())
 				jr = JsonResponse.getInstance(p);
 			else
-				jr = JsonResponse.getInstance("No User found for id: " + id);
+				jr = JsonResponse.getInstance("No Product found for id: " + id);
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);
@@ -61,10 +61,10 @@ public class ProductController {
 		try {
 			if (productRepo.existsById(p.getId())) {
 				productRepo.delete(p);
-				jr = JsonResponse.getInstance("User deleted.");
+				jr = JsonResponse.getInstance("Product deleted.");
 			} else {
 				jr = JsonResponse
-						.getInstance("User ID: " + p.getId() + " does not exist and you are attempting to delete it");
+						.getInstance("Product ID: " + p.getId() + " does not exist and you are attempting to delete it");
 			}
 
 		} catch (Exception e) {
@@ -83,7 +83,7 @@ public class ProductController {
 				jr = JsonResponse.getInstance(productRepo.save(p));
 			} else {
 				jr = JsonResponse
-						.getInstance("User ID: " + p.getId() + " does not exist and you are attempting to save it");
+						.getInstance("Product ID: " + p.getId() + " does not exist and you are attempting to save it");
 			}
 
 		} catch (Exception e) {

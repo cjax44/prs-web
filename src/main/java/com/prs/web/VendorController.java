@@ -46,7 +46,7 @@ public class VendorController {
 			if (p.isPresent())
 				jr = JsonResponse.getInstance(p);
 			else
-				jr = JsonResponse.getInstance("No User found for id: " + id);
+				jr = JsonResponse.getInstance("No Vendor found for id: " + id);
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);
@@ -62,10 +62,10 @@ public class VendorController {
 		try {
 			if (vendorRepo.existsById(p.getId())) {
 				vendorRepo.delete(p);
-				jr = JsonResponse.getInstance("User deleted.");
+				jr = JsonResponse.getInstance("Vendor deleted.");
 			} else {
 				jr = JsonResponse
-						.getInstance("User ID: " + p.getId() + " does not exist and you are attempting to delete it");
+						.getInstance("Vendor ID: " + p.getId() + " does not exist and you are attempting to delete it");
 			}
 
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class VendorController {
 				jr = JsonResponse.getInstance(vendorRepo.save(p));
 			} else {
 				jr = JsonResponse
-						.getInstance("User ID: " + p.getId() + " does not exist and you are attempting to save it");
+						.getInstance("Vendor ID: " + p.getId() + " does not exist and you are attempting to save it");
 			}
 
 		} catch (Exception e) {
