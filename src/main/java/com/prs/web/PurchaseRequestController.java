@@ -47,11 +47,11 @@ public class PurchaseRequestController {
 	}
 	
 	@GetMapping("/list-review")
-	public JsonResponse listReview() {
+	public JsonResponse listReview(@PathVariable int id) {
 		JsonResponse jr = null;		
 		
 		try {
-			jr = JsonResponse.getInstance(purchaseRequestRepo.findAllByStatusAndUserNot("Review", userRepo.findById(3)));
+			jr = JsonResponse.getInstance(purchaseRequestRepo.findAllByStatusAndUserNot("Review", userRepo.findById(id)));
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);
@@ -152,7 +152,7 @@ public class PurchaseRequestController {
 
 	}
 	
-	@PostMapping("/approve")
+	@PutMapping("/approve")
 	public JsonResponse approve(@RequestBody PurchaseRequest p) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
@@ -178,7 +178,7 @@ public class PurchaseRequestController {
 	}
 	
 
-	@PostMapping("/reject")
+	@PutMapping("/reject")
 	public JsonResponse reject(@RequestBody PurchaseRequest p) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
