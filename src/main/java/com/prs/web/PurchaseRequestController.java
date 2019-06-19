@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prs.business.JsonResponse;
+import com.prs.business.Product;
 import com.prs.business.User;
 import com.prs.business.PurchaseRequest;
 import com.prs.db.PurchaseRequestRepository;
@@ -99,6 +100,23 @@ public class PurchaseRequestController {
 		return jr;
 
 	}
+	
+	@DeleteMapping("/{id}")
+	public JsonResponse delete(@PathVariable int id) {
+		JsonResponse jr = null;
+		try {
+			Optional<PurchaseRequest> purchaseRequest = purchaseRequestRepo.findById(id);
+			if (purchaseRequest.isPresent()) {
+				purchaseRequestRepo.deleteById(id);
+				jr = JsonResponse.getInstance(purchaseRequest);
+			} else
+				jr = JsonResponse.getInstance("Delete failed. No user for id: " + id);
+		} catch (Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+
 
 	@PutMapping("/")
 	public JsonResponse update(@RequestBody PurchaseRequest p) {

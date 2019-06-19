@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.prs.business.JsonResponse;
 import com.prs.business.Product;
+import com.prs.business.Vendor;
 import com.prs.db.ProductRepository;
 
 @CrossOrigin
@@ -74,6 +75,22 @@ public class ProductController {
 		}
 		return jr;
 
+	}
+	
+	@DeleteMapping("/{id}")
+	public JsonResponse delete(@PathVariable int id) {
+		JsonResponse jr = null;
+		try {
+			Optional<Product> product = productRepo.findById(id);
+			if (product.isPresent()) {
+				productRepo.deleteById(id);
+				jr = JsonResponse.getInstance(product);
+			} else
+				jr = JsonResponse.getInstance("Delete failed. No user for id: " + id);
+		} catch (Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
 	}
 
 	@PutMapping("/")

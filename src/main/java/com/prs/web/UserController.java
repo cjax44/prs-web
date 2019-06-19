@@ -76,6 +76,25 @@ public class UserController {
 		
 	}
 	
+	
+	@DeleteMapping("/{id}")
+	public JsonResponse delete(@PathVariable int id) {
+		JsonResponse jr = null;
+		try {
+			Optional<User> user = userRepo.findById(id);
+			if (user.isPresent()) {
+				userRepo.deleteById(id);
+				jr = JsonResponse.getInstance(user);
+			} else
+				jr = JsonResponse.getInstance("Delete failed. No user for id: " + id);
+		} catch (Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	
+	
 	@PutMapping("/")
 	public JsonResponse update(@RequestBody User p) {
 		JsonResponse jr = null;
