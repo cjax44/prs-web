@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prs.business.JsonResponse;
@@ -74,6 +75,17 @@ public class PurchaseRequestLineItemController {
 		}
 		return jr;
 
+	}
+	
+	@GetMapping(path="/lines-for-pr/{id}")
+	public @ResponseBody JsonResponse getAllLineItemsForPR(@PathVariable int id) {
+		JsonResponse jr = null;
+		try {
+			jr = JsonResponse.getInstance(pRLIRepo.findAllBypurchaseRequestId(id));
+		} catch (Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
 	}
 
 	@DeleteMapping("/")

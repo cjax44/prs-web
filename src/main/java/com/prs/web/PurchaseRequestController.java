@@ -49,12 +49,12 @@ public class PurchaseRequestController {
 
 	}
 	
-	@GetMapping("/list-review")
+	@GetMapping("/list-review/{id}")
 	public JsonResponse listReview(@PathVariable int id) {
-		JsonResponse jr = null;		
+		JsonResponse jr = null;
 		
 		try {
-			jr = JsonResponse.getInstance(purchaseRequestRepo.findAllByStatusAndUserNot("Review", userRepo.findById(id)));
+			jr = JsonResponse.getInstance(purchaseRequestRepo.findAllByStatusAndUserIdNot("Review", id));
 
 		} catch (Exception e) {
 			jr = JsonResponse.getInstance(e);

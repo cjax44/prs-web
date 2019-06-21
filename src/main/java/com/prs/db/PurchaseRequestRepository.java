@@ -9,6 +9,6 @@ import com.prs.business.User;
 
 public interface PurchaseRequestRepository extends CrudRepository<PurchaseRequest, Integer> {
 
-	Iterable<PurchaseRequest> findAllByStatusAndUserNot(String status, Optional<User> optional);
+	Iterable<PurchaseRequest> findAllByStatusAndUserIdNot(String status, int id);
 
 }
