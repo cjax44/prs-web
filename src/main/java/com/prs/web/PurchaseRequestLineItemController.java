@@ -77,8 +77,8 @@ public class PurchaseRequestLineItemController {
 
 	}
 	
-	@GetMapping(path="/lines-for-pr/{id}")
-	public @ResponseBody JsonResponse getAllLineItemsForPR(@PathVariable int id) {
+	@GetMapping("/lines-for-pr/{id}")
+	public JsonResponse getAllLineItemsForPR(@PathVariable int id) {
 		JsonResponse jr = null;
 		try {
 			jr = JsonResponse.getInstance(pRLIRepo.findAllBypurchaseRequestId(id));
@@ -88,25 +88,25 @@ public class PurchaseRequestLineItemController {
 		return jr;
 	}
 
-	@DeleteMapping("/")
-	public JsonResponse delete(@RequestBody PurchaseRequestLineItem p) {
+	@DeleteMapping("/{id}")
+	public JsonResponse delete(@PathVariable int id) {
 		JsonResponse jr = null;
 		// NOTE: May want to enhance exception handling
 		try {
-			if (pRLIRepo.existsById(p.getId())) {
+			if (pRLIRepo.existsById(id)) {
 				
 				// delete prli
-				pRLIRepo.delete(p);
+				pRLIRepo.deleteById(pRLIRepo.findById(id).get().getId());
 				// recalculate total
-				PurchaseRequest pr = purchaseRequestRepo.findById(p.getPurchaseRequest().getId()).get();
-				double total = recalculateTotal(p.getPurchaseRequest());
+				PurchaseRequest pr = purchaseRequestRepo.findById(pRLIRepo.findById(id).get().getId());
+				double total = recalculateTotal(pRLIRepo.findById(id).get().getPurchaseRequest());
 				pr.setTotal(total);
 				purchaseRequestRepo.save(pr);
 			
 				jr = JsonResponse.getInstance("Line item deleted.");
 			} else {
 				jr = JsonResponse
-						.getInstance("Line item ID: " + p.getId() + " does not exist and you are attempting to delete it");
+						.getInstance("Line item ID: " + pRLIRepo.findById(id).get().getPurchaseRequest().getId() + " does not exist and you are attempting to delete it");
 			}
 
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public class PurchaseRequestLineItemController {
 				// update prli
 				jr = JsonResponse.getInstance(pRLIRepo.save(p));
 				// recalculate total
-				PurchaseRequest pr = purchaseRequestRepo.findById(p.getPurchaseRequest().getId()).get();
+				PurchaseRequest pr = purchaseRequestRepo.findById(p.getPurchaseRequest().getId());
 				double total = recalculateTotal(p.getPurchaseRequest());
 				pr.setTotal(total);
 				purchaseRequestRepo.save(pr);
@@ -151,7 +151,7 @@ public class PurchaseRequestLineItemController {
 			// add prli
 			jr = JsonResponse.getInstance(pRLIRepo.save(p));
 			// recalculate total
-			PurchaseRequest pr = purchaseRequestRepo.findById(p.getPurchaseRequest().getId()).get();
+			PurchaseRequest pr = purchaseRequestRepo.findById(p.getPurchaseRequest().getId());
 			double total = recalculateTotal(p.getPurchaseRequest());
 			pr.setTotal(total);
 			purchaseRequestRepo.save(pr);

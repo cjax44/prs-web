@@ -68,8 +68,8 @@ public class PurchaseRequestController {
 	public JsonResponse getAll(@PathVariable int id) {
 		JsonResponse jr = null;
 		try {
-			Optional<PurchaseRequest> p = purchaseRequestRepo.findById(id);
-			if (p.isPresent())
+			PurchaseRequest p = purchaseRequestRepo.findById(id);
+			if (p != null)
 				jr = JsonResponse.getInstance(p);
 			else
 				jr = JsonResponse.getInstance("No Purchase Request found for id: " + id);
@@ -105,8 +105,8 @@ public class PurchaseRequestController {
 	public JsonResponse delete(@PathVariable int id) {
 		JsonResponse jr = null;
 		try {
-			Optional<PurchaseRequest> purchaseRequest = purchaseRequestRepo.findById(id);
-			if (purchaseRequest.isPresent()) {
+			PurchaseRequest purchaseRequest = purchaseRequestRepo.findById(id);
+			if (purchaseRequest != null) {
 				purchaseRequestRepo.deleteById(id);
 				jr = JsonResponse.getInstance(purchaseRequest);
 			} else
