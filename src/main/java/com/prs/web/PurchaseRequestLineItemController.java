@@ -95,11 +95,12 @@ public class PurchaseRequestLineItemController {
 		try {
 			if (pRLIRepo.existsById(id)) {
 				
+				
+				PurchaseRequest pr = purchaseRequestRepo.findById(pRLIRepo.findById(id).get().getPurchaseRequest().getId());
 				// delete prli
 				pRLIRepo.deleteById(pRLIRepo.findById(id).get().getId());
 				// recalculate total
-				PurchaseRequest pr = purchaseRequestRepo.findById(pRLIRepo.findById(id).get().getId());
-				double total = recalculateTotal(pRLIRepo.findById(id).get().getPurchaseRequest());
+				double total = recalculateTotal(pr);
 				pr.setTotal(total);
 				purchaseRequestRepo.save(pr);
 			
